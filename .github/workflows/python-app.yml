@@ -14,7 +14,6 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -28,25 +27,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        export PATH=$PATH:$HOME/.local/bin
+        echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV  # Trwałe dodanie PATH do zmiennej środowiskowej
     - name: Install requirements
       working-directory: ./example-app
       run: |
         poetry install --no-root
-      
     - name: Test with pytest
       run: |
-        pytest
-
+        poetry run pytest  # Używamy `poetry` do uruchamiania testów
 
   lint:
     needs: build
@@ -54,7 +45,7 @@ jobs:
     steps:
       - name: Lint with flake8
         run: |
-          poetry run task lint 
+          poetry run task lint  # Używamy `poetry` do lintowania
 
   formatter:
     needs: build
@@ -62,7 +53,7 @@ jobs:
     steps:
       - name: Run formatter
         run: |
-          poetry run task formatter
+          poetry run task formatter  # Używamy `poetry` do formatowania
 
   security:
     needs: build
@@ -70,11 +61,11 @@ jobs:
     steps:
       - name: Run security checks
         run: |
-          poetry run task security
+          poetry run task security  # Używamy `poetry` do uruchamiania sprawdzania bezpieczeństwa
 
   unittests:
     needs: [lint, formatter, security]
     runs-on: ubuntu-latest
     steps:
       - name: Run unit tests
-        run: poetry run pytest
+        run: poetry run pytest  # Uruchamiamy testy jednostkowe przy użyciu `poetry`
