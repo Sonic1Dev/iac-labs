@@ -47,19 +47,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Lint with flake8
-        run: poetry run flake8 .
+        run: poetry run task lint 
 
   formatter:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Run formatter
         run: poetry run task formatter
 
@@ -67,9 +61,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Run security checks
         run: poetry run task security
 
@@ -77,8 +68,5 @@ jobs:
     needs: [lint, formatter, security]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Run unit tests
         run: poetry run pytest
