@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lint with flake8
-        working-directory: ./example-app
+        working-directory: example-app
         run: |
           poetry run task lint 
 
