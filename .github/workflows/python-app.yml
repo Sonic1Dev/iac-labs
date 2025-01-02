@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lint with flake8
-        working-directory: ./example-app  
+        working-directory: example-app  
         run: |
           poetry run task lint 
 
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run formatter
-        working-directory: ./example-app 
+        working-directory: example-app 
         run: |
           poetry run task formatter 
 
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run security checks
-        working-directory: ./example-app 
+        working-directory: example-app 
         run: |
           poetry run task security 
 
@@ -72,6 +72,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run unit tests
-        working-directory: ./example-app 
+        working-directory: example-app 
         run: |
           poetry run pytest 
