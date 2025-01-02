@@ -53,21 +53,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lint with flake8
-        run: poetry run task lint 
+        working-directory: ./example-app
+        run: |
+          poetry run task lint 
 
   formatter:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run formatter
-        run: poetry run task formatter
+        working-directory: ./example-app
+        run: |
+          poetry run task formatter
 
   security:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run security checks
-        run: poetry run task security
+        working-directory: ./example-app
+        run: |
+          poetry run task security
 
   unittests:
     needs: [lint, formatter, security]
