@@ -30,42 +30,47 @@ jobs:
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV  # Trwałe dodanie PATH do zmiennej środowiskowej
+        echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV 
     - name: Install requirements
-      working-directory: ./example-app
+      working-directory: ./example-app 
       run: |
         poetry install --no-root
     - name: Test with pytest
+      working-directory: ./example-app 
       run: |
-        poetry run pytest  # Używamy `poetry` do uruchamiania testów
+        poetry run pytest
 
   lint:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Lint with flake8
+        working-directory: ./example-app
         run: |
-          poetry run task lint  # Używamy `poetry` do lintowania
+          poetry run task lint
 
   formatter:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run formatter
+        working-directory: ./example-app
         run: |
-          poetry run task formatter  # Używamy `poetry` do formatowania
+          poetry run task formatter
 
   security:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run security checks
+        working-directory: ./example-app 
         run: |
-          poetry run task security  # Używamy `poetry` do uruchamiania sprawdzania bezpieczeństwa
+          poetry run task security 
 
   unittests:
     needs: [lint, formatter, security]
     runs-on: ubuntu-latest
     steps:
       - name: Run unit tests
-        run: poetry run pytest  # Uruchamiamy testy jednostkowe przy użyciu `poetry`
+        working-directory: ./example-app
+        run: poetry run pytest 
