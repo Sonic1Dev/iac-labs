@@ -30,9 +30,9 @@ jobs:
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV  # Dodanie do zmiennej środowiskowej
+        export PATH=$PATH:$HOME/.local/bin
     - name: Install Poetry dependencies
-      working-directory: ./example-app  # Jeśli zależności są w katalogu `example-app`
+      working-directory: ./example-app 
       run: poetry install --no-root
     - name: Lint with flake8
       run: |
@@ -41,16 +41,15 @@ jobs:
         poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        poetry run pytest  # Uruchamianie testów przy pomocy poetry
+        poetry run pytest
 
   lint:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Lint with flake8
-        run: poetry run flake8 
+      - name: Run formatter
+        run: |
+          poetry run task lint
 
   formatter:
     needs: build
