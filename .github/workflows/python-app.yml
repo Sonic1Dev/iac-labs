@@ -32,33 +32,38 @@ jobs:
         curl -sSL https://install.python-poetry.org | python3 -
         echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV 
     - name: Install requirements
+      working-directory: ./example-app 
       run: |
-        poetry install --no-root
+        poetry install --no-root  
     - name: Test with pytest
+      working-directory: ./example-app 
       run: |
-        poetry run pytest 
+        poetry run pytest  
 
   lint:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Lint with flake8
+        working-directory: ./example-app  
         run: |
-          poetry run task lint
+          poetry run task lint 
 
   formatter:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run formatter
+        working-directory: ./example-app 
         run: |
-          poetry run task formatter
+          poetry run task formatter 
 
   security:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run security checks
+        working-directory: ./example-app 
         run: |
           poetry run task security 
 
@@ -67,5 +72,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run unit tests
+        working-directory: ./example-app 
         run: |
           poetry run pytest 
