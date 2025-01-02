@@ -44,9 +44,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Lint with flake8
-        working-directory: example-app  
+      - name: Lint with flake8 
         run: |
+          cd ..
+          cd example-app
           poetry run task lint 
 
   formatter:
