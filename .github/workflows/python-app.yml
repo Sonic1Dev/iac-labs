@@ -27,7 +27,12 @@ jobs:
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        export PATH="$HOME/.local/bin:$PATH"  # Dodanie ścieżki do $PATH
+        echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV 
+    - name: Verify Poetry installation
+      run: |
+        echo $PATH
+        which poetry  # Sprawdź, czy poetry jest w PATH
+        poetry --version 
     - name: Install requirements
       working-directory: ./example-app 
       run: |
@@ -43,7 +48,6 @@ jobs:
     steps:
       - name: Lint with flake8 
         run: |
-          export PATH="$HOME/.local/bin:$PATH"  # Dodanie ścieżki w tym kroku
           poetry run task lint
 
   formatter:
@@ -53,7 +57,6 @@ jobs:
       - name: Run formatter
         working-directory: example-app 
         run: |
-          export PATH="$HOME/.local/bin:$PATH"  # Dodanie ścieżki w tym kroku
           poetry run task formatter
 
   security:
@@ -63,7 +66,6 @@ jobs:
       - name: Run security checks
         working-directory: example-app 
         run: |
-          export PATH="$HOME/.local/bin:$PATH"  # Dodanie ścieżki w tym kroku
           poetry run task security
 
   unittests:
@@ -73,5 +75,4 @@ jobs:
       - name: Run unit tests
         working-directory: example-app 
         run: |
-          export PATH="$HOME/.local/bin:$PATH"  # Dodanie ścieżki w tym kroku
           poetry run pytest
