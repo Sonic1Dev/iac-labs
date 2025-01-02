@@ -46,8 +46,6 @@ jobs:
     steps:
       - name: Lint with flake8 
         run: |
-          cd ..
-          cd example-app
           poetry run task lint 
 
   formatter:
