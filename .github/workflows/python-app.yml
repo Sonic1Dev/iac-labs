@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      dependencies-installed: ${{ steps.dependency-step.outputs.success }}
+      dependencies-installed: ${{ steps.dependency-step.outcome }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -26,11 +26,19 @@ jobs:
           virtualenvs-in-project: false
           installer-parallel: true
 
+      - name: Verify Poetry installation
+        run: poetry --version
+
       - name: Install project dependencies
         id: dependency-step
-        run: poetry install
+        run: |
+          echo "Installing project dependencies with Poetry..."
+          poetry install --verbose
         env:
           POETRY_VIRTUALENVS_PATH: ${{ runner.temp }}/.venv
+
+      - name: Show installed dependencies
+        run: poetry show --tree
 
   lint:
     needs: build
