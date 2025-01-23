@@ -1,12 +1,15 @@
 services:
-  - type: web
-    name: flask-poetry
-    env: python
-    plan: free
-    rootDir: example-app
-    buildCommand: poetry install --no-dev --no-root --no-interaction
-    startCommand: gunicorn run:app
-    autoDeploy: false
-    envVars:
-      - key: PYTHON_VERSION
-        value: "3.10.3"
+- type: web
+  name: flask-poetry
+  runtime: python
+  repo: https://github.com/Sonic1Dev/iac-labs
+  plan: free
+  envVars:
+  - key: PYTHON_VERSION
+    sync: false
+  region: oregon
+  buildCommand: poetry install --no-dev --no-root --no-interaction
+  startCommand: gunicorn run:app
+  autoDeploy: false
+  rootDir: example-app
+version: "1"
