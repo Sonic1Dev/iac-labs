@@ -36,7 +36,7 @@ jobs:
     - name: Install requirements
       working-directory: ./example-app 
       run: |
-        poetry install 
+        poetry install --no-root
     - name: Test with pytest
       working-directory: ./example-app 
       run: |
